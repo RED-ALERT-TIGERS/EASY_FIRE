@@ -1,0 +1,3256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EASY FIRE</title>
+    
+    <!-- Ad Code -->
+    <script src='//libtl.com/sdk.js' data-zone='10577253' data-sdk='show_10577253'></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fire': '#007BFF',
+                        'fire-light': '#4DA8FF',
+                        'fire-dark': '#0056B3',
+                        'premium': '#00D4FF',
+                        'dark': '#0A0A1A',
+                        'darker': '#070714',
+                        'card': '#0F1A2A',
+                        'card-light': '#1A2A3A',
+                        'accent': '#00BFFF',
+                        'accent-light': '#6ED0FF'
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'montserrat': ['Montserrat', 'sans-serif']
+                    },
+                    animation: {
+                        'fire': 'fire 1.5s ease-in-out infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                        'spin-slow': 'spin-slow 3s linear infinite',
+                        'gradient-flow': 'gradient-flow 3s ease infinite'
+                    },
+                    keyframes: {
+                        'fire': {
+                            '0%, 100%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.05)' }
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: 0.7 }
+                        },
+                        'spin-slow': {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' }
+                        },
+                        'gradient-flow': {
+                            '0%, 100%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #0A0A1A 100%);
+            color: #FFFFFF;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .fire-gradient {
+            background: linear-gradient(135deg, #007BFF 0%, #00D4FF 100%);
+        }
+        
+        .fire-gradient-text {
+            background: linear-gradient(135deg, #007BFF 0%, #00D4FF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .premium-card {
+            background: rgba(15, 26, 42, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 123, 255, 0.3);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 123, 255, 0.15),
+                        0 5px 15px rgba(77, 168, 255, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .premium-card:hover {
+            border-color: rgba(0, 212, 255, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0, 123, 255, 0.25);
+        }
+        
+        .fire-glow {
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.3),
+                        0 0 40px rgba(77, 168, 255, 0.2);
+        }
+        
+        .btn-fire {
+            background: linear-gradient(135deg, #007BFF 0%, #00D4FF 100%);
+            color: white;
+            font-weight: 600;
+            padding: 16px 32px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+        
+        .btn-fire:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+            background: linear-gradient(135deg, #0066CC 0%, #00BFFF 100%);
+        }
+        
+        .btn-fire:active {
+            transform: translateY(0);
+        }
+        
+        .btn-fire::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(30deg);
+            transition: all 0.6s;
+        }
+        
+        .btn-fire:hover::after {
+            left: 120%;
+        }
+        
+        .input-fire {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(0, 123, 255, 0.2);
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .input-fire:focus {
+            outline: none;
+            border-color: #007BFF;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+        }
+        
+        .fire-loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(0, 123, 255, 0.1);
+            border-top: 3px solid #007BFF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .notification-dot {
+            width: 8px;
+            height: 8px;
+            background: #00FF88;
+            border-radius: 50%;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        
+        .tab-active {
+            position: relative;
+            color: #007BFF !important;
+        }
+        
+        .tab-active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #007BFF;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #007BFF;
+        }
+        
+        .fire-progress {
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .fire-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007BFF, #00D4FF);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .coin-icon {
+            background: linear-gradient(135deg, #00D4FF, #00BFFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .main-page {
+            display: none;
+        }
+        
+        .main-page.active {
+            display: flex;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .sub-page {
+            display: none;
+        }
+        
+        .sub-page.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, #007BFF, #00D4FF);
+            border-radius: 50%;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        
+        .copyright {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .logo-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .logo-flame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 123, 255, 0.3) 0%, transparent 70%);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .telegram-btn {
+            background: linear-gradient(135deg, #0088CC, #2AABEE);
+            color: white;
+        }
+        
+        .nav-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+            transition: all 0.3s ease;
+            background: rgba(15, 26, 42, 0.7);
+        }
+        
+        .nav-link.active .nav-icon {
+            background: linear-gradient(135deg, #007BFF 0%, #00D4FF 100%);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+        
+        .nav-link:hover .nav-icon {
+            transform: translateY(-3px);
+            background: rgba(0, 123, 255, 0.2);
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(0, 212, 255, 0.05));
+            border: 1px solid rgba(0, 123, 255, 0.2);
+        }
+        
+        .premium-badge {
+            background: linear-gradient(135deg, #007BFF, #00D4FF);
+            background-size: 200% 200%;
+            animation: gradient-flow 3s ease infinite;
+        }
+        
+        .glass-effect {
+            background: rgba(15, 26, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .task-card {
+            border-left: 4px solid #007BFF;
+        }
+        
+        .withdrawal-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #FFC107;
+        }
+        
+        .status-approved {
+            background: rgba(40, 167, 69, 0.2);
+            color: #28A745;
+        }
+        
+        .status-rejected {
+            background: rgba(220, 53, 69, 0.2);
+            color: #DC3545;
+        }
+        
+        /* Switch styling for settings */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+        }
+        
+        input:checked + .slider {
+            background-color: #007BFF;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .slider.round {
+            border-radius: 34px;
+        }
+        
+        .slider.round:before {
+            border-radius: 50%;
+        }
+        
+        /* Telegram badge style */
+        .telegram-badge {
+            background: linear-gradient(135deg, #0088CC, #2AABEE);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        /* Telegram Connection Modal */
+        .telegram-modal {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .telegram-connected {
+            background: linear-gradient(135deg, rgba(0, 136, 204, 0.1), rgba(42, 171, 238, 0.05));
+            border: 1px solid rgba(0, 136, 204, 0.3);
+        }
+    </style>
+</head>
+<body class="max-w-md mx-auto relative">
+
+    <!-- App Loader -->
+    <div id="loader" class="hidden fixed inset-0 bg-dark flex flex-col items-center justify-center z-50">
+        <div class="relative mb-8">
+            <div class="fire-loader"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-3xl">
+                    <i class="fas fa-fire text-fire"></i>
+                </div>
+            </div>
+        </div>
+        <h2 class="text-3xl font-bold mb-2 fire-gradient-text animate__animated animate__pulse animate__infinite">EASY FIRE</h2>
+        <p class="text-gray-400">Loading premium experience...</p>
+    </div>
+
+    <!-- Authentication Section -->
+    <div id="auth-section" class="min-h-screen p-6 flex-col justify-center main-page active">
+        <div class="text-center mb-12">
+            <div class="logo-container inline-block mb-6">
+                <div class="w-28 h-28 rounded-2xl fire-gradient flex items-center justify-center animate__animated animate__fire">
+                    <i class="fas fa-fire-flame-curved text-4xl text-white"></i>
+                </div>
+                <div class="logo-flame rounded-2xl"></div>
+            </div>
+            <h1 class="text-5xl font-bold mb-2 fire-gradient-text">EASY FIRE</h1>
+            <p class="text-xl font-light text-gray-400">Premium Earnings Platform</p>
+            <p class="text-gray-500 mt-4">Sign in to start earning with fire speed</p>
+        </div>
+        
+        <div class="premium-card p-8 animate__animated animate__fadeInUp">
+            <div id="login-view">
+                <h3 class="text-2xl font-bold mb-8 text-center">Welcome Back</h3>
+                
+                <div class="mb-6">
+                    <div class="relative">
+                        <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="login-email" type="email" placeholder="Email Address" class="input-fire pl-12">
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="login-password" type="password" placeholder="Password" class="input-fire pl-12">
+                    </div>
+                </div>
+                
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember-me" class="mr-2">
+                        <label for="remember-me" class="text-sm text-gray-400">Remember me</label>
+                    </div>
+                    <a href="#" id="forgot-password-link" class="text-sm text-fire hover:text-fire-light transition-colors">Forgot Password?</a>
+                </div>
+                
+                <button id="login-btn" class="btn-fire w-full py-4 text-lg font-bold mb-6">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    LOGIN TO EASY FIRE
+                </button>
+                
+                <div class="text-center">
+                    <p class="text-gray-400">New to EASY FIRE? 
+                        <a href="#" id="show-signup" class="font-semibold text-fire hover:text-fire-light transition-colors">Create Account</a>
+                    </p>
+                </div>
+            </div>
+            
+            <div id="signup-view" class="hidden">
+                <h3 class="text-2xl font-bold mb-8 text-center">Join EASY FIRE</h3>
+                
+                <div class="mb-4">
+                    <div class="relative">
+                        <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="signup-name" type="text" placeholder="Full Name" class="input-fire pl-12">
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <div class="relative">
+                        <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="signup-email" type="email" placeholder="Email Address" class="input-fire pl-12">
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="signup-password" type="password" placeholder="Password" class="input-fire pl-12">
+                    </div>
+                </div>
+                
+                <button id="signup-btn" class="btn-fire w-full py-4 text-lg font-bold mb-6">
+                    <i class="fas fa-fire mr-2"></i>
+                    Create Account
+                </button>
+                
+                <div class="text-center">
+                    <p class="text-gray-400">Already have an account? 
+                        <a href="#" id="show-login" class="font-semibold text-fire hover:text-fire-light transition-colors">Login Here</a>
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Forgot Password View -->
+            <div id="forgot-password-view" class="hidden">
+                <h3 class="text-2xl font-bold mb-8 text-center">Reset Password</h3>
+                
+                <div class="mb-6">
+                    <p class="text-gray-400 mb-4 text-center">Enter your email address and we'll send you a password reset link</p>
+                    <div class="relative">
+                        <i class="fas fa-envelope absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="reset-email" type="email" placeholder="Enter your email" class="input-fire pl-12">
+                    </div>
+                </div>
+                
+                <button id="reset-password-btn" class="btn-fire w-full py-4 text-lg font-bold mb-4">
+                    <i class="fas fa-paper-plane mr-2"></i>
+                    Send Reset Link
+                </button>
+                
+                <button id="back-to-login" class="w-full py-3 text-fire hover:text-fire-light transition-colors font-medium">
+                    ← Back to Login
+                </button>
+            </div>
+            
+            <!-- Reset Password View -->
+            <div id="reset-password-view" class="hidden">
+                <h3 class="text-2xl font-bold mb-8 text-center">New Password</h3>
+                
+                <div class="mb-4">
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="new-password" type="password" placeholder="New Password" class="input-fire pl-12">
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="confirm-password" type="password" placeholder="Confirm New Password" class="input-fire pl-12">
+                    </div>
+                </div>
+                
+                <button id="confirm-reset-btn" class="btn-fire w-full py-4 text-lg font-bold mb-4">
+                    <i class="fas fa-check mr-2"></i>
+                    Update Password
+                </button>
+            </div>
+        </div>
+        
+        <!-- Telegram Button -->
+        <div class="text-center mt-8">
+            <a href="https://t.me/EASY_FIRE_BOT" target="_blank" class="inline-flex items-center justify-center telegram-btn px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                <i class="fab fa-telegram mr-2"></i>
+                Join Our Telegram Bot
+            </a>
+        </div>
+        
+        <div class="copyright mt-12">
+            <p>© 2026 EASY FIRE. All rights reserved.</p>
+            <p class="mt-1 text-xs">Premium Earnings Platform</p>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="min-h-screen flex-col main-page">
+        <!-- Premium Header -->
+        <header class="sticky top-0 z-30 premium-card mx-4 mt-4 p-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl fire-gradient flex items-center justify-center animate__animated animate__pulse animate__infinite">
+                    <i class="fas fa-fire text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold fire-gradient-text">EASY FIRE</h1>
+                    <p class="text-xs text-gray-400">Premium Earnings</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <div id="notification-bell" class="relative cursor-pointer">
+                    <div class="w-9 h-9 rounded-lg bg-card flex items-center justify-center hover:bg-card-light transition-all">
+                        <i class="fas fa-bell text-gray-300"></i>
+                    </div>
+                    <div id="notification-dot" class="notification-dot"></div>
+                </div>
+                
+                <div class="w-9 h-9 rounded-lg bg-card flex items-center justify-center cursor-pointer hover:bg-card-light transition-all" onclick="navigateTo('profile-page')">
+                    <i class="fas fa-user text-gray-300"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="px-4 pb-24">
+            <!-- Home Page -->
+            <div id="home-page" class="space-y-6 sub-page">
+                <!-- Balance Card -->
+                <div class="premium-card p-6 mt-4 animate__animated animate__fadeInUp">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <p class="text-gray-400 text-sm font-medium mb-1">TOTAL BALANCE</p>
+                            <div class="flex items-baseline">
+                                <h2 id="coin-balance" class="text-5xl font-bold mr-2">0</h2>
+                                <span class="text-2xl font-semibold text-gray-400">Coins</span>
+                            </div>
+                            <div class="flex items-center mt-3">
+                                <i class="fas fa-fire text-fire mr-2"></i>
+                                <p class="text-sm text-gray-400">Earn fast with EASY FIRE</p>
+                            </div>
+                        </div>
+                        <button id="home-withdraw-btn" class="btn-fire px-5 py-3">
+                            <i class="fas fa-wallet mr-2"></i>
+                            Withdraw
+                        </button>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-400">Daily Progress</span>
+                            <span class="font-semibold text-fire"><span id="ads-left-count">...</span> Ads Left</span>
+                        </div>
+                        <div class="fire-progress">
+                            <div id="progress-fill" class="fire-progress-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Telegram Channel Button -->
+                <div class="premium-card p-4 animate__animated animate__fadeInUp">
+                    <a href="https://t.me/EASY_FIRE_BOT" target="_blank" class="flex items-center justify-center telegram-btn p-4 rounded-xl font-semibold hover:opacity-90 transition-opacity">
+                        <i class="fab fa-telegram text-xl mr-3"></i>
+                        <div class="text-left">
+                            <p class="font-bold">Join Our Telegram Bot</p>
+                            <p class="text-sm opacity-90">Get broadcasts directly</p>
+                        </div>
+                        <i class="fas fa-external-link-alt ml-auto"></i>
+                    </a>
+                </div>
+
+                <!-- Daily Tasks Section -->
+                <section class="animate__animated animate__fadeInUp">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold flex items-center">
+                                <i class="fas fa-tasks text-fire mr-3"></i>
+                                Daily Tasks
+                            </h2>
+                            <p class="text-gray-400">Complete tasks to earn 10 coins each</p>
+                        </div>
+                        <div class="px-3 py-1 bg-fire bg-opacity-20 rounded-full">
+                            <span class="text-sm font-semibold text-fire">+10 coins</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Task 1 -->
+                        <div id="task-interstitial" class="premium-card p-5 task-card">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-xl fire-gradient flex items-center justify-center mr-4">
+                                        <i class="fas fa-play text-xl text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-lg">Watch Short Ad</h3>
+                                        <p class="text-gray-400 text-sm">Rewarded Interstitial</p>
+                                        <div class="flex items-center mt-1">
+                                            <i class="fas fa-coins text-premium text-xs mr-1"></i>
+                                            <span class="text-xs font-semibold text-fire">+10 Coins</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="btn-interstitial" class="btn-fire px-4 py-2" onclick="startTask('interstitial')">
+                                    Claim
+                                </button>
+                            </div>
+                            <div id="timer-interstitial" class="hidden mt-4 text-center">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <i class="fas fa-clock text-fire"></i>
+                                    <span class="font-mono font-bold text-fire">10</span>
+                                    <span class="text-gray-400">seconds until ad starts</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 2 -->
+                        <div id="task-popup" class="premium-card p-5 task-card">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-xl bg-blue-500 bg-opacity-20 flex items-center justify-center mr-4">
+                                        <i class="fas fa-mouse-pointer text-xl text-blue-400"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-lg">Click for Reward</h3>
+                                        <p class="text-gray-400 text-sm">Rewarded Popup</p>
+                                        <div class="flex items-center mt-1">
+                                            <i class="fas fa-coins text-premium text-xs mr-1"></i>
+                                            <span class="text-xs font-semibold text-fire">+10 Coins</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="btn-popup" class="btn-fire px-4 py-2" onclick="startTask('popup')">
+                                    Claim
+                                </button>
+                            </div>
+                            <div id="timer-popup" class="hidden mt-4 text-center">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <i class="fas fa-clock text-fire"></i>
+                                    <span class="font-mono font-bold text-fire">10</span>
+                                    <span class="text-gray-400">seconds until ad starts</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 3 -->
+                        <div id="task-inApp" class="premium-card p-5 task-card">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-xl bg-green-500 bg-opacity-20 flex items-center justify-center mr-4">
+                                        <i class="fas fa-video text-xl text-green-400"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-lg">Watch a Video</h3>
+                                        <p class="text-gray-400 text-sm">In-App Interstitial</p>
+                                        <div class="flex items-center mt-1">
+                                            <i class="fas fa-coins text-premium text-xs mr-1"></i>
+                                            <span class="text-xs font-semibold text-fire">+10 Coins</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="btn-inApp" class="btn-fire px-4 py-2" onclick="startTask('inApp')">
+                                    Start
+                                </button>
+                            </div>
+                            <div id="timer-inApp" class="hidden mt-4 text-center">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <i class="fas fa-clock text-fire"></i>
+                                    <span class="font-mono font-bold text-fire">10</span>
+                                    <span class="text-gray-400">seconds until ad starts</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Task 4 -->
+                        <div id="task-miniApp" class="premium-card p-5 task-card">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 rounded-xl bg-purple-500 bg-opacity-20 flex items-center justify-center mr-4">
+                                        <i class="fas fa-gamepad text-xl text-purple-400"></i>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-bold text-lg">Play Mini Game</h3>
+                                        <p class="text-gray-400 text-sm">Get extra rewards!</p>
+                                        <div class="flex items-center mt-1">
+                                            <i class="fas fa-coins text-premium text-xs mr-1"></i>
+                                            <span class="text-xs font-semibold text-fire">+10 Coins</span>
+                                            <span class="ml-2 px-2 py-0.5 bg-fire bg-opacity-20 text-fire text-xs rounded-full">BONUS</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="btn-miniApp" class="btn-fire px-4 py-2" onclick="startTask('miniApp')">
+                                    Play
+                                </button>
+                            </div>
+                            <div id="timer-miniApp" class="hidden mt-4 text-center">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <i class="fas fa-clock text-fire"></i>
+                                    <span class="font-mono font-bold text-fire">10</span>
+                                    <span class="text-gray-400">seconds until ad starts</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Quick Stats -->
+                <div class="grid grid-cols-3 gap-4 mt-8">
+                    <div class="premium-card p-4 text-center">
+                        <div class="w-10 h-10 rounded-full fire-gradient flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-bolt text-white"></i>
+                        </div>
+                        <p class="text-gray-400 text-xs">Daily Streak</p>
+                        <p id="daily-streak" class="font-bold text-lg">1 Day</p>
+                    </div>
+                    
+                    <div class="premium-card p-4 text-center">
+                        <div class="w-10 h-10 rounded-full bg-blue-500 bg-opacity-20 flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-users text-blue-400"></i>
+                        </div>
+                        <p class="text-gray-400 text-xs">Referrals</p>
+                        <p id="total-referrals" class="font-bold text-lg">0</p>
+                    </div>
+                    
+                    <div class="premium-card p-4 text-center">
+                        <div class="w-10 h-10 rounded-full bg-premium bg-opacity-20 flex items-center justify-center mx-auto mb-2">
+                            <i class="fas fa-crown text-premium"></i>
+                        </div>
+                        <p class="text-gray-400 text-xs">Level</p>
+                        <p id="account-level" class="font-bold text-lg">Fire</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wallet Page -->
+            <div id="wallet-page" class="space-y-6 sub-page">
+                <div class="animate__animated animate__fadeInUp">
+                    <h2 class="text-2xl font-bold mb-2 flex items-center">
+                        <i class="fas fa-wallet text-fire mr-3"></i>
+                        My Wallet
+                    </h2>
+                    <p class="text-gray-400 mb-6">Manage your earnings and withdrawals</p>
+                </div>
+                
+                <div class="premium-card p-6 animate__animated animate__fadeInUp">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <p class="text-gray-400 text-sm">AVAILABLE BALANCE</p>
+                            <div class="flex items-baseline">
+                                <h2 id="wallet-coin-balance" class="text-4xl font-bold mr-2">0</h2>
+                                <span class="text-xl font-semibold text-gray-400">Coins</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                            <p class="text-gray-400 text-sm">VALUE</p>
+                            <p class="text-xl font-bold" id="coin-value-info">...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-8">
+                        <h3 class="font-bold text-lg mb-4 flex items-center">
+                            <i class="fas fa-money-check-alt text-fire mr-2"></i>
+                            Withdraw Earnings
+                        </h3>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm font-medium mb-2">Amount (Coins)</label>
+                            <div class="relative">
+                                <i class="fas fa-coins absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input id="withdraw-amount" type="number" placeholder="Enter coin amount" class="input-fire pl-12">
+                            </div>
+                            <p class="text-gray-400 text-xs mt-2">Minimum: <span id="min-withdrawal-info">...</span> Coins</p>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block text-gray-400 text-sm font-medium mb-2">Payment Method</label>
+                            <select id="withdraw-method" class="input-fire"></select>
+                        </div>
+                        
+                        <div class="mb-4" id="payment-details-container"></div>
+                        
+                        <button id="withdraw-btn" class="btn-fire w-full py-4">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Request Withdrawal
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="animate__animated animate__fadeInUp">
+                    <h3 class="text-lg font-bold mb-4 flex items-center">
+                        <i class="fas fa-history text-fire mr-2"></i>
+                        Withdrawal History
+                    </h3>
+                    <div id="withdrawal-history-list" class="space-y-3">
+                        <div class="text-center py-12">
+                            <div class="fire-loader mx-auto mb-4"></div>
+                            <p class="text-gray-400">Loading withdrawal history...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Refer Page -->
+            <div id="refer-page" class="space-y-6 sub-page">
+                <div class="animate__animated animate__fadeInUp">
+                    <h2 class="text-2xl font-bold mb-2 flex items-center">
+                        <i class="fas fa-user-friends text-fire mr-3"></i>
+                        Refer & Earn
+                    </h2>
+                    <p class="text-gray-400 mb-6">Invite friends and earn 20 coins each</p>
+                </div>
+                
+                <div class="premium-card p-6 text-center animate__animated animate__fadeInUp">
+                    <div class="w-16 h-16 rounded-full fire-gradient flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-gift text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">Invite Friends</h3>
+                    <p class="text-gray-400 mb-6">Share your code and both get 20 coins bonus</p>
+                    
+                    <div class="mb-8">
+                        <p class="text-gray-400 mb-2">Your Referral Code</p>
+                        <div class="bg-card p-4 rounded-xl flex items-center justify-between mb-4">
+                            <span id="referral-code" class="text-2xl font-bold tracking-widest">LOADING...</span>
+                            <button id="copy-code-btn" class="w-10 h-10 rounded-lg bg-card hover:bg-card-light transition-all flex items-center justify-center">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="bg-card p-4 rounded-xl mt-4">
+                            <p class="text-gray-400 mb-2">Your Referral Link</p>
+                            <div class="flex items-center">
+                                <input id="referral-link" type="text" readonly class="input-fire bg-card rounded-r-none flex-grow" value="Loading...">
+                                <button id="copy-link-btn" class="w-10 h-10 rounded-l-none rounded-lg fire-gradient flex items-center justify-center">
+                                    <i class="fas fa-link text-white"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button id="share-btn" class="btn-fire w-full py-4 mb-6">
+                        <i class="fas fa-share-alt mr-2"></i>
+                        Share Your Code
+                    </button>
+                    
+                    <p class="text-fire text-sm font-semibold">Earn 20 coins per referral!</p>
+                </div>
+                
+                <div class="premium-card p-6 animate__animated animate__fadeInUp">
+                    <h3 class="font-bold text-lg mb-4 flex items-center">
+                        <i class="fas fa-ticket-alt text-fire mr-2"></i>
+                        Have a Referral Code?
+                    </h3>
+                    <div class="mb-4">
+                        <div class="relative">
+                            <i class="fas fa-code absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input id="enter-referral-code" type="text" placeholder="Enter friend's code here" class="input-fire pl-12">
+                        </div>
+                    </div>
+                    <button id="apply-referral-btn" class="btn-fire w-full py-4">
+                        <i class="fas fa-bolt mr-2"></i>
+                        Apply Code & Get 20 Coins
+                    </button>
+                </div>
+                
+                <div class="premium-card p-6">
+                    <h3 class="font-bold text-lg mb-4">How It Works</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full fire-gradient flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white font-bold">1</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Share your referral link</p>
+                                <p class="text-gray-400 text-sm">Copy and send to friends</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full fire-gradient flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white font-bold">2</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Friend signs up using your link</p>
+                                <p class="text-gray-400 text-sm">They get instant bonus</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 rounded-full fire-gradient flex items-center justify-center mr-4 flex-shrink-0">
+                                <span class="text-white font-bold">3</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold">You both earn 20 coins</p>
+                                <p class="text-gray-400 text-sm">Bonus credited instantly</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="profile-page" class="space-y-6 sub-page">
+                <div class="text-center mb-8">
+                    <div class="relative inline-block mb-4">
+                        <div class="w-24 h-24 rounded-full fire-gradient flex items-center justify-center mx-auto">
+                            <i class="fas fa-user-crown text-3xl text-white"></i>
+                        </div>
+                        <div class="absolute bottom-2 right-2 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center border-4 border-dark">
+                            <i class="fas fa-check text-xs text-white"></i>
+                        </div>
+                    </div>
+                    <h2 id="profile-name" class="text-2xl font-bold mb-1">User Name</h2>
+                    <p id="profile-email" class="text-gray-400">user@email.com</p>
+                    <div class="mt-3">
+                        <span class="fire-gradient text-white text-sm font-bold px-4 py-1.5 rounded-full premium-badge">PREMIUM MEMBER</span>
+                    </div>
+                </div>
+                
+                <!-- Account Stats -->
+                <div class="premium-card p-6">
+                    <h3 class="font-bold text-lg mb-4 flex items-center">
+                        <i class="fas fa-chart-line text-fire mr-2"></i>
+                        Account Stats
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-fire bg-opacity-20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-coins text-fire"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-sm">Total Earned</p>
+                                    <p id="total-earned" class="font-bold text-lg">0 Coins</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-400 text-sm">Pending Withdrawals</p>
+                                <p id="pending-withdrawn" class="font-bold text-lg">0 Coins</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-green-500 bg-opacity-20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-money-bill-wave text-green-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-sm">Total Withdrawn</p>
+                                    <p id="total-withdrawn" class="font-bold text-lg">0 Coins</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-400 text-sm">Member Since</p>
+                                <p id="member-since" class="font-bold text-lg">Today</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-blue-500 bg-opacity-20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-calendar-check text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-sm">Tasks Completed</p>
+                                    <p id="tasks-completed" class="font-bold text-lg">0</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-400 text-sm">Daily Ads</p>
+                                <p id="daily-ads-today" class="font-bold text-lg">0/10</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-lg bg-purple-500 bg-opacity-20 flex items-center justify-center mr-4">
+                                    <i class="fas fa-user-friends text-purple-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-sm">Total Referrals</p>
+                                    <p id="total-referrals-profile" class="font-bold text-lg">0</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-400 text-sm">Account Level</p>
+                                <p id="account-level-profile" class="font-bold text-lg">Fire</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Telegram Connection Status -->
+                <div id="telegram-connection-card" class="premium-card p-4">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-lg bg-telegram bg-opacity-20 flex items-center justify-center mr-4">
+                                <i class="fab fa-telegram text-blue-400"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Telegram Bot</p>
+                                <p class="text-gray-400 text-sm">Get broadcasts directly</p>
+                            </div>
+                        </div>
+                        <div id="telegram-status">
+                            <span class="px-3 py-1 rounded-full text-xs font-semibold bg-red-500 bg-opacity-20 text-red-400">Not Connected</span>
+                        </div>
+                    </div>
+                    
+                    <div id="telegram-not-connected">
+                        <p class="text-gray-400 text-sm mb-3">Connect with Telegram to receive important updates and broadcasts directly.</p>
+                        <button onclick="showTelegramConnectModal()" class="telegram-btn w-full py-3 rounded-xl font-semibold">
+                            <i class="fab fa-telegram mr-2"></i>
+                            Connect Telegram Account
+                        </button>
+                    </div>
+                    
+                    <div id="telegram-connected" class="hidden">
+                        <div class="telegram-connected p-4 rounded-xl mb-3">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="font-semibold text-green-400">✅ Connected</p>
+                                    <p class="text-gray-400 text-sm">You will receive all broadcasts</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs text-gray-400">Chat ID:</p>
+                                    <p class="font-mono text-sm" id="telegram-chat-id-display">...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="disconnectTelegram()" class="w-full py-3 bg-red-500 bg-opacity-20 text-red-400 hover:bg-red-500 hover:bg-opacity-30 transition-all rounded-xl font-semibold">
+                            <i class="fas fa-unlink mr-2"></i>
+                            Disconnect Telegram
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Profile Options -->
+                <div class="space-y-3">
+                    <button onclick="openSettings()" class="w-full premium-card p-4 text-left flex items-center justify-between hover:bg-card-light transition-all">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-lg bg-yellow-500 bg-opacity-20 flex items-center justify-center mr-4">
+                                <i class="fas fa-cog text-yellow-400"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Settings</p>
+                                <p class="text-gray-400 text-sm">App preferences and options</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                    
+                    <button onclick="openHelp()" class="w-full premium-card p-4 text-left flex items-center justify-between hover:bg-card-light transition-all">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-lg bg-green-500 bg-opacity-20 flex items-center justify-center mr-4">
+                                <i class="fas fa-question-circle text-green-400"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Help & Support</p>
+                                <p class="text-gray-400 text-sm">FAQs and contact support</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                    
+                    <button onclick="openPrivacy()" class="w-full premium-card p-4 text-left flex items-center justify-between hover:bg-card-light transition-all">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-lg bg-blue-500 bg-opacity-20 flex items-center justify-center mr-4">
+                                <i class="fas fa-shield-alt text-blue-400"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Privacy & Security</p>
+                                <p class="text-gray-400 text-sm">Data and permissions</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                    
+                    <button onclick="openTelegram()" class="w-full premium-card p-4 text-left flex items-center justify-between hover:bg-card-light transition-all">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-lg bg-telegram bg-opacity-20 flex items-center justify-center mr-4">
+                                <i class="fab fa-telegram text-blue-400"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold">Telegram Bot</p>
+                                <p class="text-gray-400 text-sm">Join our official bot</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-external-link-alt text-gray-400"></i>
+                    </button>
+                </div>
+                
+                <button id="logout-btn" class="btn-fire w-full py-4 mt-6 bg-fire-dark hover:bg-fire">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    Logout
+                </button>
+                
+                <!-- Copyright -->
+                <div class="copyright mt-8">
+                    <p>© 2026 EASY FIRE. All rights reserved.</p>
+                    <p class="mt-1 text-xs">Version 2.0.0 Premium</p>
+                </div>
+            </div>
+            
+            <!-- Notifications Page -->
+            <div id="notifications-page" class="space-y-4 sub-page">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold flex items-center">
+                        <i class="fas fa-bell text-fire mr-3"></i>
+                        Notifications
+                    </h2>
+                    <button id="mark-all-read-btn" class="text-sm text-fire font-semibold">Mark all as read</button>
+                </div>
+                
+                <div id="notifications-list" class="space-y-4">
+                    <div class="text-center py-12">
+                        <div class="fire-loader mx-auto mb-4"></div>
+                        <p class="text-gray-400">Loading notifications...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav fixed bottom-0 w-full max-w-md grid grid-cols-4 items-center text-center py-3 premium-card mx-4 mb-4 rounded-2xl z-20 glass-effect">
+            <a href="#" class="nav-link flex flex-col items-center py-1" data-page="home-page">
+                <div class="nav-icon">
+                    <i class="fas fa-home text-lg"></i>
+                </div>
+                <span class="text-xs font-medium">Home</span>
+            </a>
+            
+            <a href="#" class="nav-link flex flex-col items-center py-1" data-page="wallet-page">
+                <div class="nav-icon">
+                    <i class="fas fa-wallet text-lg"></i>
+                </div>
+                <span class="text-xs font-medium">Wallet</span>
+            </a>
+            
+            <a href="#" class="nav-link flex flex-col items-center py-1" data-page="refer-page">
+                <div class="nav-icon">
+                    <i class="fas fa-user-friends text-lg"></i>
+                </div>
+                <span class="text-xs font-medium">Refer</span>
+            </a>
+            
+            <a href="#" class="nav-link flex flex-col items-center py-1" data-page="profile-page">
+                <div class="nav-icon">
+                    <i class="fas fa-user text-lg"></i>
+                </div>
+                <span class="text-xs font-medium">Profile</span>
+            </a>
+        </nav>
+    </div>
+    
+    <!-- Alert Modal -->
+    <div id="custom-alert" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+        <div class="premium-card p-6 w-full max-w-sm text-center rounded-2xl animate__animated animate__fadeInUp">
+            <div class="w-14 h-14 rounded-full fire-gradient flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-info text-2xl text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Notification</h3>
+            <p id="alert-message" class="text-gray-300 mb-6"></p>
+            <button id="alert-ok-btn" class="btn-fire w-full py-4">OK</button>
+        </div>
+    </div>
+    
+    <!-- Telegram Connect Modal -->
+    <div id="telegram-connect-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+        <div class="premium-card p-6 w-full max-w-md rounded-2xl animate__animated animate__fadeInUp">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold flex items-center">
+                    <i class="fab fa-telegram text-blue-400 mr-2"></i>
+                    Connect Telegram Account
+                </h3>
+                <button onclick="closeTelegramModal()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="text-center">
+                    <div class="w-16 h-16 rounded-full bg-telegram bg-opacity-20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-telegram text-3xl text-blue-400"></i>
+                    </div>
+                    <h4 class="text-lg font-bold mb-2">Get Important Updates</h4>
+                    <p class="text-gray-400 mb-4">Connect your Telegram account to receive:</p>
+                    
+                    <div class="space-y-2 mb-6">
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span>Admin Broadcasts & Announcements</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span>Important Updates & News</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span>Withdrawal Status Updates</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-400 mr-3"></i>
+                            <span>Exclusive Offers & Bonuses</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-card p-4 rounded-xl">
+                    <h5 class="font-bold mb-3">How to Connect:</h5>
+                    <ol class="space-y-3 text-sm">
+                        <li class="flex items-start">
+                            <span class="bg-fire text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">1</span>
+                            <span>Open <a href="https://t.me/EASY_FIRE_BOT" target="_blank" class="text-blue-400">@EASY_FIRE_BOT</a> on Telegram</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-fire text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">2</span>
+                            <span>Send <code class="bg-gray-800 px-2 py-1 rounded">/start</code> command to the bot</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-fire text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">3</span>
+                            <span>Copy your Chat ID from the bot's response</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-fire text-white rounded-full w-6 h-6 flex items-center justify-center mr-3 flex-shrink-0">4</span>
+                            <span>Enter your Chat ID below and click Connect</span>
+                        </li>
+                    </ol>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-400 text-sm font-medium mb-2">Your Telegram Chat ID</label>
+                    <div class="relative">
+                        <i class="fab fa-telegram absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input id="telegram-chat-id" type="text" placeholder="Enter your Telegram Chat ID" class="input-fire pl-12">
+                    </div>
+                    <p class="text-gray-500 text-xs mt-2">Example: 1234567890 (Get this from Telegram bot)</p>
+                </div>
+                
+                <div class="flex space-x-3">
+                    <button onclick="connectTelegram()" class="btn-fire flex-1 py-3">
+                        <i class="fab fa-telegram mr-2"></i>
+                        Connect Account
+                    </button>
+                    <button onclick="closeTelegramModal()" class="flex-1 py-3 premium-card hover:bg-card-light transition-all">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+        <div class="premium-card p-6 w-full max-w-md rounded-2xl animate__animated animate__fadeInUp">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-cog text-fire mr-2"></i>
+                    Settings
+                </h3>
+                <button onclick="closeSettings()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-gray-400 text-sm mb-2">Notification Settings</label>
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <span>Push Notifications</span>
+                            <label class="switch">
+                                <input id="push-notifications" type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Email Notifications</span>
+                            <label class="switch">
+                                <input id="email-notifications" type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Telegram Broadcasts</span>
+                            <label class="switch">
+                                <input id="telegram-notifications" type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-400 text-sm mb-2">Appearance</label>
+                    <select class="input-fire">
+                        <option>Dark Mode</option>
+                        <option>Light Mode</option>
+                        <option>Auto</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-400 text-sm mb-2">Language</label>
+                    <select class="input-fire">
+                        <option>English</option>
+                        <option>বাংলা</option>
+                    </select>
+                </div>
+                
+                <button id="save-settings-btn" class="btn-fire w-full py-4 mt-4">
+                    Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Help Modal -->
+    <div id="help-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+        <div class="premium-card p-6 w-full max-w-md rounded-2xl animate__animated animate__fadeInUp max-h-[80vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-question-circle text-fire mr-2"></i>
+                    Help & Support
+                </h3>
+                <button onclick="closeHelp()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <div>
+                    <h4 class="font-bold mb-2">Frequently Asked Questions</h4>
+                    <div class="space-y-3">
+                        <div class="premium-card p-4">
+                            <p class="font-semibold mb-1">How do I earn coins?</p>
+                            <p class="text-gray-400 text-sm">Complete daily tasks, watch ads, and refer friends to earn coins.</p>
+                        </div>
+                        <div class="premium-card p-4">
+                            <p class="font-semibold mb-1">When can I withdraw?</p>
+                            <p class="text-gray-400 text-sm">You can withdraw once you reach the minimum withdrawal amount.</p>
+                        </div>
+                        <div class="premium-card p-4">
+                            <p class="font-semibold mb-1">How much per referral?</p>
+                            <p class="text-gray-400 text-sm">You earn 20 coins for each successful referral.</p>
+                        </div>
+                        <div class="premium-card p-4">
+                            <p class="font-semibold mb-1">How to connect Telegram?</p>
+                            <p class="text-gray-400 text-sm">Go to Profile → Telegram Bot section and follow the instructions.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-2">Contact Support</h4>
+                    <div class="space-y-3">
+                        <a href="https://t.me/EASY_FIRE_BOT" target="_blank" class="flex items-center p-4 premium-card hover:bg-card-light transition-all">
+                            <i class="fab fa-telegram text-blue-400 text-xl mr-3"></i>
+                            <div>
+                                <p class="font-semibold">Telegram Bot</p>
+                                <p class="text-gray-400 text-sm">@EASY_FIRE_BOT</p>
+                            </div>
+                        </a>
+                        <div class="p-4 premium-card">
+                            <p class="font-semibold">Email Support</p>
+                            <p class="text-gray-400 text-sm">support@easyfire.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Privacy Modal -->
+    <div id="privacy-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+        <div class="premium-card p-6 w-full max-w-md rounded-2xl animate__animated animate__fadeInUp max-h-[80vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-shield-alt text-fire mr-2"></i>
+                    Privacy & Security
+                </h3>
+                <button onclick="closePrivacy()" class="text-gray-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="premium-card p-4">
+                    <h4 class="font-bold mb-2">Data Collection</h4>
+                    <p class="text-gray-400 text-sm">We collect only necessary data to provide our services and improve your experience.</p>
+                </div>
+                
+                <div class="premium-card p-4">
+                    <h4 class="font-bold mb-2">Security Measures</h4>
+                    <p class="text-gray-400 text-sm">Your data is protected with industry-standard encryption and security protocols.</p>
+                </div>
+                
+                <div class="premium-card p-4">
+                    <h4 class="font-bold mb-2">Third-Party Services</h4>
+                    <p class="text-gray-400 text-sm">We use trusted third-party services for authentication and analytics.</p>
+                </div>
+                
+                <div class="flex space-x-3 mt-6">
+                    <button class="btn-fire flex-1 py-3">
+                        Accept
+                    </button>
+                    <button onclick="closePrivacy()" class="flex-1 py-3 premium-card hover:bg-card-light transition-all">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Animation -->
+    <div id="success-animation" class="hidden fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="w-24 h-24 rounded-full fire-gradient flex items-center justify-center mx-auto mb-6 animate__animated animate__pulse">
+                <i class="fas fa-check text-3xl text-white"></i>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">Success!</h2>
+            <p class="text-xl text-gray-300">+10 Coins Added</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB1r0lGCYDzgW8Qle8bgBPAGSW_kqPJlNg",
+            authDomain: "easy-fire-2f343.firebaseapp.com",
+            databaseURL: "https://easy-fire-2f343-default-rtdb.firebaseio.com",
+            projectId: "easy-fire-2f343",
+            storageBucket: "easy-fire-2f343.firebasestorage.app",
+            messagingSenderId: "514177251858",
+            appId: "1:514177251858:web:24a597e0a592ca198136cb",
+            measurementId: "G-P7LE9TC4E7"
+        };
+        
+        // Telegram Bot Configuration
+        const TELEGRAM_BOT_TOKEN = "8527319853:AAExxb6TLRyv5HbgR3VRG_5YRqq4wkBcwPY";
+        const TELEGRAM_BOT_USERNAME = "EASY_FIRE_BOT";
+        const ADMIN_ID = "6122924691";
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            signOut,
+            sendPasswordResetEmail,
+            confirmPasswordReset
+        } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc, 
+            updateDoc, 
+            collection, 
+            addDoc, 
+            serverTimestamp, 
+            query, 
+            where, 
+            getDocs, 
+            orderBy, 
+            limit,
+            Timestamp
+        } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { 
+            getDatabase, 
+            ref, 
+            set, 
+            get, 
+            update
+        } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const realtimeDb = getDatabase(app);
+
+        let currentUser = null;
+        let userData = null;
+        let appConfig = {};
+        let taskTimers = {};
+        let taskStatus = {};
+        let resetCode = null;
+        let withdrawalHistory = [];
+        let pendingWithdrawalTotal = 0;
+        let totalWithdrawnAmount = 0;
+
+        // Telegram Bot Manager
+        class TelegramBotManager {
+            constructor() {
+                this.botToken = TELEGRAM_BOT_TOKEN;
+                this.adminId = ADMIN_ID;
+                this.botUsername = TELEGRAM_BOT_USERNAME;
+            }
+
+            async saveUserToFirebase(userId, userData) {
+                try {
+                    const userRef = ref(realtimeDb, 'users/' + userId);
+                    await set(userRef, userData);
+                    console.log(`✅ User ${userId} saved to Firebase Realtime Database`);
+                    
+                    // Save to Firestore as well
+                    const firestoreRef = doc(db, "telegram_users", userId.toString());
+                    await setDoc(firestoreRef, {
+                        ...userData,
+                        firebaseUserId: null,
+                        lastUpdated: serverTimestamp()
+                    }, { merge: true });
+                    
+                    return true;
+                } catch (error) {
+                    console.error('❌ Error saving user to Firebase:', error);
+                    return false;
+                }
+            }
+
+            async getUserFromFirebase(userId) {
+                try {
+                    const userRef = ref(realtimeDb, 'users/' + userId);
+                    const snapshot = await get(userRef);
+                    if (snapshot.exists()) {
+                        console.log(`✅ Retrieved data for user ${userId} from Firebase`);
+                        return snapshot.val();
+                    }
+                    return null;
+                } catch (error) {
+                    console.error('❌ Error fetching user from Firebase:', error);
+                    return null;
+                }
+            }
+
+            async getTotalUsersCount() {
+                try {
+                    const usersRef = ref(realtimeDb, 'users');
+                    const snapshot = await get(usersRef);
+                    const allUsers = snapshot.val();
+                    const count = allUsers ? Object.keys(allUsers).length : 0;
+                    console.log(`📊 Total users in Firebase: ${count}`);
+                    return count;
+                } catch (error) {
+                    console.error('❌ Error counting users:', error);
+                    return 0;
+                }
+            }
+
+            async sendTelegramMessage(chatId, message, parseMode = 'Markdown') {
+                try {
+                    const url = `https://api.telegram.org/bot${this.botToken}/sendMessage`;
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            chat_id: chatId,
+                            text: message,
+                            parse_mode: parseMode
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if (data.ok) {
+                        console.log(`✅ Telegram message sent to ${chatId}`);
+                        return true;
+                    } else {
+                        console.error('❌ Telegram API error:', data.description);
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('❌ Error sending Telegram message:', error);
+                    return false;
+                }
+            }
+
+            async sendBroadcastToAllUsers(message) {
+                try {
+                    const usersRef = ref(realtimeDb, 'users');
+                    const snapshot = await get(usersRef);
+                    const allUsers = snapshot.val();
+                    
+                    if (!allUsers) {
+                        console.log('📭 No users to send broadcast to');
+                        return { sent: 0, failed: 0 };
+                    }
+                    
+                    let sentCount = 0;
+                    let failedCount = 0;
+                    
+                    const userIds = Object.keys(allUsers);
+                    
+                    for (const userId of userIds) {
+                        const user = allUsers[userId];
+                        if (user && user.chat_id) {
+                            try {
+                                await this.sendTelegramMessage(user.chat_id, message, 'Markdown');
+                                sentCount++;
+                                console.log(`📨 Sent broadcast to user ${userId}`);
+                            } catch (error) {
+                                failedCount++;
+                                console.error(`❌ Failed to send to user ${userId}:`, error);
+                            }
+                        }
+                    }
+                    
+                    // Save broadcast history to Firestore
+                    try {
+                        await addDoc(collection(db, "telegram_broadcasts"), {
+                            message: message,
+                            sentTo: sentCount,
+                            failed: failedCount,
+                            sentBy: 'Telegram Bot',
+                            createdAt: serverTimestamp()
+                        });
+                    } catch (error) {
+                        console.error('Error saving broadcast history:', error);
+                    }
+                    
+                    console.log(`📊 Broadcast completed: ${sentCount} sent, ${failedCount} failed`);
+                    return { sent: sentCount, failed: failedCount };
+                } catch (error) {
+                    console.error('❌ Error sending broadcast:', error);
+                    return { sent: 0, failed: 0 };
+                }
+            }
+
+            async linkTelegramWithFirebase(telegramChatId, firebaseUserId, userName, userEmail) {
+                try {
+                    // Find Telegram user by chat ID in Realtime Database
+                    const usersRef = ref(realtimeDb, 'users');
+                    const snapshot = await get(usersRef);
+                    const allUsers = snapshot.val();
+                    
+                    if (!allUsers) {
+                        return { success: false, error: 'No users found in database' };
+                    }
+                    
+                    let telegramUserId = null;
+                    let telegramUserData = null;
+                    
+                    for (const userId in allUsers) {
+                        const user = allUsers[userId];
+                        if (user && user.chat_id == telegramChatId) {
+                            telegramUserId = userId;
+                            telegramUserData = user;
+                            break;
+                        }
+                    }
+                    
+                    if (!telegramUserData) {
+                        // Create new user if not found
+                        telegramUserId = `telegram_${telegramChatId}`;
+                        telegramUserData = {
+                            chat_id: telegramChatId,
+                            first_name: userName || 'User',
+                            created_at: new Date().toISOString()
+                        };
+                        
+                        const newUserRef = ref(realtimeDb, 'users/' + telegramUserId);
+                        await set(newUserRef, telegramUserData);
+                    }
+                    
+                    // Update Telegram user with Firebase UID
+                    const userRef = ref(realtimeDb, 'users/' + telegramUserId);
+                    await update(userRef, {
+                        firebaseUserId: firebaseUserId,
+                        firebaseUserName: userName || telegramUserData.first_name,
+                        firebaseUserEmail: userEmail,
+                        linkedAt: new Date().toISOString()
+                    });
+                    
+                    // Update Firestore
+                    try {
+                        const firestoreRef = doc(db, "telegram_users", telegramUserId);
+                        await setDoc(firestoreRef, {
+                            firebaseUserId: firebaseUserId,
+                            firebaseUserName: userName || telegramUserData.first_name,
+                            firebaseUserEmail: userEmail,
+                            linkedAt: serverTimestamp(),
+                            chatId: telegramChatId
+                        }, { merge: true });
+                    } catch (error) {
+                        console.error('Error updating Firestore:', error);
+                    }
+                    
+                    // Send welcome message
+                    const welcomeMessage = `🎉 *Account Linked Successfully!*\n\nHello ${userName || telegramUserData.first_name},\n\nYour Telegram account has been linked with EASY FIRE.\n\n📧 Email: ${userEmail}\n👤 Firebase UID: ${firebaseUserId}\n\nYou will now receive important updates and broadcasts!`;
+                    
+                    await this.sendTelegramMessage(telegramChatId, welcomeMessage, 'Markdown');
+                    
+                    return { 
+                        success: true, 
+                        message: 'Telegram account linked successfully',
+                        telegramUser: {
+                            id: telegramUserId,
+                            name: (telegramUserData.first_name || '') + ' ' + (telegramUserData.last_name || ''),
+                            username: telegramUserData.username || ''
+                        }
+                    };
+                    
+                } catch (error) {
+                    console.error('❌ Error linking Telegram:', error);
+                    return { success: false, error: error.message };
+                }
+            }
+        }
+
+        // Initialize Telegram Bot Manager
+        const telegramBot = new TelegramBotManager();
+
+        // DOM Elements
+        const loader = document.getElementById('loader');
+        const coinBalanceEl = document.getElementById('coin-balance');
+        const walletCoinBalanceEl = document.getElementById('wallet-coin-balance');
+        const profileNameEl = document.getElementById('profile-name');
+        const profileEmailEl = document.getElementById('profile-email');
+        const referralCodeEl = document.getElementById('referral-code');
+        const referralLinkEl = document.getElementById('referral-link');
+        const minWithdrawalInfoEl = document.getElementById('min-withdrawal-info');
+        const coinValueInfoEl = document.getElementById('coin-value-info');
+        const withdrawMethodSelect = document.getElementById('withdraw-method');
+        const notificationDot = document.getElementById('notification-dot');
+        const adsLeftCountEl = document.getElementById('ads-left-count');
+        const paymentDetailsContainer = document.getElementById('payment-details-container');
+        const progressFill = document.getElementById('progress-fill');
+        const telegramConnectModal = document.getElementById('telegram-connect-modal');
+        const telegramChatIdInput = document.getElementById('telegram-chat-id');
+        const telegramStatusDiv = document.getElementById('telegram-status');
+        const telegramConnectedDiv = document.getElementById('telegram-connected');
+        const telegramNotConnectedDiv = document.getElementById('telegram-not-connected');
+        const telegramChatIdDisplay = document.getElementById('telegram-chat-id-display');
+        
+        // Stats elements
+        const totalEarnedEl = document.getElementById('total-earned');
+        const pendingWithdrawnEl = document.getElementById('pending-withdrawn');
+        const totalWithdrawnEl = document.getElementById('total-withdrawn');
+        const memberSinceEl = document.getElementById('member-since');
+        const accountLevelProfileEl = document.getElementById('account-level-profile');
+        const tasksCompletedEl = document.getElementById('tasks-completed');
+        const dailyAdsTodayEl = document.getElementById('daily-ads-today');
+        const dailyStreakEl = document.getElementById('daily-streak');
+        const totalReferralsEl = document.getElementById('total-referrals');
+        const totalReferralsProfileEl = document.getElementById('total-referrals-profile');
+        const accountLevelEl = document.getElementById('account-level');
+
+        window.onload = () => {
+            setupEventListeners();
+            showMainPage('auth-section');
+            if (loader) loader.style.display = 'none';
+            onAuthStateChanged(auth, handleAuthStateChange);
+            
+            // Check for password reset in URL
+            checkPasswordReset();
+            
+            // Check for Telegram chat ID in URL
+            checkTelegramConnection();
+        };
+
+        function checkPasswordReset() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('mode');
+            const oobCode = urlParams.get('oobCode');
+            
+            if (mode === 'resetPassword' && oobCode) {
+                resetCode = oobCode;
+                showResetPasswordView();
+            }
+        }
+
+        function checkTelegramConnection() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const telegramChatId = urlParams.get('telegram_chat_id');
+            
+            if (telegramChatId && currentUser) {
+                connectTelegramWithId(telegramChatId);
+                
+                // Remove the parameter from URL without reloading
+                const newUrl = window.location.pathname + window.location.search.replace(/telegram_chat_id=[^&]*&?/, '').replace(/&$/, '').replace(/\?$/, '');
+                window.history.replaceState({}, document.title, newUrl);
+            }
+        }
+
+        async function handleAuthStateChange(user) {
+            if (user) {
+                if (loader) loader.style.display = 'flex';
+                currentUser = user;
+                await fetchUserData();
+                
+                if (userData && userData.isBlocked) {
+                    showAlert("Your account has been blocked.");
+                    await signOut(auth);
+                    if (loader) loader.style.display = 'none';
+                    return;
+                }
+                
+                await fetchAppConfig();
+                await calculateWithdrawalStats();
+                updateUI();
+                showMainPage('app-container');
+                navigateTo('home-page');
+                if (loader) loader.style.display = 'none';
+                
+                // Update Telegram connection status
+                updateTelegramConnectionStatus();
+                
+                // Check if Telegram is already linked
+                await checkAndLinkTelegram();
+            } else {
+                currentUser = null;
+                userData = null;
+                pendingWithdrawalTotal = 0;
+                totalWithdrawnAmount = 0;
+                
+                showMainPage('auth-section');
+            }
+        }
+
+        async function checkAndLinkTelegram() {
+            if (!userData || !userData.telegramChatId) return;
+            
+            try {
+                const telegramUsersRef = ref(realtimeDb, 'users');
+                const snapshot = await get(telegramUsersRef);
+                const allUsers = snapshot.val();
+                
+                if (allUsers) {
+                    for (const userId in allUsers) {
+                        const telegramUser = allUsers[userId];
+                        if (telegramUser && telegramUser.chat_id == userData.telegramChatId && 
+                            telegramUser.firebaseUserId !== currentUser.uid) {
+                            
+                            // Update the Telegram user with current Firebase UID
+                            const userRef = ref(realtimeDb, 'users/' + userId);
+                            await update(userRef, {
+                                firebaseUserId: currentUser.uid,
+                                firebaseUserName: userData.name,
+                                firebaseUserEmail: userData.email,
+                                linkedAt: new Date().toISOString()
+                            });
+                            
+                            console.log('✅ Updated Telegram user with new Firebase UID');
+                            break;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking Telegram link:', error);
+            }
+        }
+
+        async function fetchUserData() {
+            if (!currentUser) return;
+            const userRef = doc(db, "users", currentUser.uid);
+            try {
+                const userSnap = await getDoc(userRef);
+                if (userSnap.exists()) {
+                    userData = userSnap.data();
+                    
+                    // Ensure all required fields exist
+                    if (userData.balance === undefined) userData.balance = 100;
+                    if (!userData.referralCode) {
+                        userData.referralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+                        await updateDoc(userRef, { referralCode: userData.referralCode });
+                    }
+                    if (userData.dailyAdCount === undefined) userData.dailyAdCount = 0;
+                    if (!userData.lastAdWatchDate) {
+                        userData.lastAdWatchDate = new Date().toISOString().split('T')[0];
+                    }
+                    if (userData.totalTasksCompleted === undefined) userData.totalTasksCompleted = 0;
+                    if (userData.totalWithdrawn === undefined) userData.totalWithdrawn = 0;
+                    if (userData.totalEarned === undefined) userData.totalEarned = 0;
+                    if (!userData.createdAt) userData.createdAt = serverTimestamp();
+                    if (userData.dailyStreak === undefined) userData.dailyStreak = 1;
+                    if (!userData.lastLoginDate) {
+                        userData.lastLoginDate = new Date().toISOString().split('T')[0];
+                    }
+                    if (userData.totalReferrals === undefined) userData.totalReferrals = 0;
+                    if (!userData.accountLevel) userData.accountLevel = "Fire";
+                    if (!userData.lastNotificationCheck) userData.lastNotificationCheck = serverTimestamp();
+                    if (!userData.telegramChatId) userData.telegramChatId = null;
+                    if (userData.notificationsEnabled === undefined) userData.notificationsEnabled = true;
+                    if (userData.emailNotifications === undefined) userData.emailNotifications = true;
+                    if (userData.telegramNotifications === undefined) userData.telegramNotifications = true;
+                } else {
+                    const ownReferralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+                    const defaultUserData = {
+                        uid: currentUser.uid, 
+                        name: currentUser.displayName || currentUser.email.split('@')[0], 
+                        email: currentUser.email,
+                        balance: 0, 
+                        referralCode: ownReferralCode, 
+                        referredBy: null,
+                        lastNotificationCheck: serverTimestamp(),
+                        createdAt: serverTimestamp(),
+                        dailyAdCount: 0, 
+                        lastAdWatchDate: new Date().toISOString().split('T')[0], 
+                        isBlocked: false,
+                        notificationsEnabled: true,
+                        emailNotifications: true,
+                        telegramNotifications: true,
+                        telegramChatId: null,
+                        totalTasksCompleted: 0,
+                        totalWithdrawn: 0,
+                        totalEarned: 0,
+                        dailyStreak: 0,
+                        lastLoginDate: new Date().toISOString().split('T')[0],
+                        totalReferrals: 0,
+                        accountLevel: "Fire"
+                    };
+                    await setDoc(userRef, defaultUserData);
+                    userData = defaultUserData;
+                }
+                
+                // Update daily streak
+                await updateDailyStreak();
+                
+                // Check URL for Telegram chat ID
+                const urlParams = new URLSearchParams(window.location.search);
+                const telegramChatId = urlParams.get('telegram_chat_id');
+                if (telegramChatId && !userData.telegramChatId) {
+                    await connectTelegramWithId(telegramChatId);
+                }
+                
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                showAlert("Error loading user data.");
+            }
+        }
+
+        async function updateDailyStreak() {
+            const today = new Date().toISOString().split('T')[0];
+            const userRef = doc(db, "users", currentUser.uid);
+            
+            if (userData.lastLoginDate !== today) {
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                const yesterdayStr = yesterday.toISOString().split('T')[0];
+                
+                if (userData.lastLoginDate === yesterdayStr) {
+                    userData.dailyStreak = (userData.dailyStreak || 1) + 1;
+                } else {
+                    userData.dailyStreak = 1;
+                }
+                
+                userData.lastLoginDate = today;
+                await updateDoc(userRef, { 
+                    dailyStreak: userData.dailyStreak,
+                    lastLoginDate: today
+                });
+            }
+        }
+
+        async function calculateWithdrawalStats() {
+            if (!currentUser) return;
+            
+            try {
+                // Fetch all withdrawals for this user
+                const q = query(collection(db, "withdrawals"), where("userId", "==", currentUser.uid));
+                const querySnapshot = await getDocs(q);
+                
+                pendingWithdrawalTotal = 0;
+                totalWithdrawnAmount = 0;
+                
+                if (!querySnapshot.empty) {
+                    querySnapshot.forEach(doc => {
+                        const withdrawal = doc.data();
+                        if (withdrawal.status === 'pending') {
+                            pendingWithdrawalTotal += withdrawal.amount || 0;
+                        } else if (withdrawal.status === 'approved') {
+                            totalWithdrawnAmount += withdrawal.amount || 0;
+                        }
+                    });
+                }
+                
+                // Update user's totalWithdrawn in database if different
+                if (userData.totalWithdrawn !== totalWithdrawnAmount) {
+                    const userRef = doc(db, "users", currentUser.uid);
+                    await updateDoc(userRef, { 
+                        totalWithdrawn: totalWithdrawnAmount 
+                    });
+                    userData.totalWithdrawn = totalWithdrawnAmount;
+                }
+                
+            } catch (error) {
+                console.error("Error calculating withdrawal stats:", error);
+            }
+        }
+
+        async function fetchAppConfig() {
+            try {
+                const configRef = doc(db, "config", "main");
+                const configSnap = await getDoc(configRef);
+                appConfig = configSnap.exists() ? configSnap.data() : { 
+                    minWithdrawal: 5000, 
+                    paymentMethods: ["bKash","Nagad"], 
+                    dailyAdLimit: 10, 
+                    coinValueCoins: 1000, 
+                    coinValueInr: 10,
+                    baseUrl: window.location.origin,
+                    telegramBot: "https://t.me/EASY_FIRE_BOT",
+                    referralBonus: 20
+                };
+            } catch (error) {
+                console.error("Error fetching app config:", error);
+                appConfig = { 
+                    minWithdrawal: 5000, 
+                    paymentMethods: ["bKash","Nagad"], 
+                    dailyAdLimit: 10, 
+                    coinValueCoins: 1000, 
+                    coinValueInr: 10,
+                    baseUrl: window.location.origin,
+                    telegramBot: "https://t.me/EASY_FIRE_BOT",
+                    referralBonus: 20
+                };
+            }
+        }
+        
+        function updateUI() {
+            if (!userData) return;
+            const balance = userData.balance || 0;
+            if (coinBalanceEl) coinBalanceEl.textContent = balance;
+            if (walletCoinBalanceEl) walletCoinBalanceEl.textContent = balance;
+            if (profileNameEl) profileNameEl.textContent = userData.name || 'No Name';
+            if (profileEmailEl) profileEmailEl.textContent = userData.email || 'No Email';
+            if (referralCodeEl) referralCodeEl.textContent = userData.referralCode || '...';
+            if (referralLinkEl) referralLinkEl.value = `${appConfig.baseUrl || window.location.origin}/?ref=${userData.referralCode}`;
+            if (minWithdrawalInfoEl) minWithdrawalInfoEl.textContent = `${appConfig.minWithdrawal || 5000} Coins`;
+            if (coinValueInfoEl) coinValueInfoEl.textContent = `${appConfig.coinValueCoins || 1000} Coins = ৳${appConfig.coinValueInr || 10}`;
+            
+            if (withdrawMethodSelect) {
+                withdrawMethodSelect.innerHTML = '';
+                (appConfig.paymentMethods || []).forEach(method => {
+                    const option = document.createElement('option');
+                    option.value = method;
+                    option.textContent = method;
+                    withdrawMethodSelect.appendChild(option);
+                });
+            }
+            
+            updateDynamicPaymentFields();
+            updateAdsLeftCount();
+            updateProgressBar();
+            updateStatsUI();
+            updateTelegramConnectionStatus();
+        }
+
+        function updateTelegramConnectionStatus() {
+            if (!userData) return;
+            
+            const isConnected = userData.telegramChatId && userData.telegramChatId !== "";
+            
+            if (telegramStatusDiv) {
+                if (isConnected) {
+                    telegramStatusDiv.innerHTML = '<span class="px-3 py-1 rounded-full text-xs font-semibold bg-green-500 bg-opacity-20 text-green-400">Connected</span>';
+                    if (telegramConnectedDiv) telegramConnectedDiv.classList.remove('hidden');
+                    if (telegramNotConnectedDiv) telegramNotConnectedDiv.classList.add('hidden');
+                    if (telegramChatIdDisplay) telegramChatIdDisplay.textContent = userData.telegramChatId;
+                } else {
+                    telegramStatusDiv.innerHTML = '<span class="px-3 py-1 rounded-full text-xs font-semibold bg-red-500 bg-opacity-20 text-red-400">Not Connected</span>';
+                    if (telegramConnectedDiv) telegramConnectedDiv.classList.add('hidden');
+                    if (telegramNotConnectedDiv) telegramNotConnectedDiv.classList.remove('hidden');
+                }
+            }
+        }
+
+        function updateStatsUI() {
+            if (!userData) return;
+            
+            if (totalEarnedEl) totalEarnedEl.textContent = `${userData.totalEarned || 0} Coins`;
+            if (pendingWithdrawnEl) pendingWithdrawnEl.textContent = `${pendingWithdrawalTotal} Coins`;
+            if (totalWithdrawnEl) totalWithdrawnEl.textContent = `${totalWithdrawnAmount} Coins`;
+            if (tasksCompletedEl) tasksCompletedEl.textContent = userData.totalTasksCompleted || 0;
+            if (dailyAdsTodayEl) dailyAdsTodayEl.textContent = `${userData.dailyAdCount || 0}/${appConfig.dailyAdLimit || 10}`;
+            if (dailyStreakEl) dailyStreakEl.textContent = `${userData.dailyStreak || 1} Day${userData.dailyStreak > 1 ? 's' : ''}`;
+            if (totalReferralsEl) totalReferralsEl.textContent = userData.totalReferrals || 0;
+            if (totalReferralsProfileEl) totalReferralsProfileEl.textContent = userData.totalReferrals || 0;
+            if (accountLevelEl) accountLevelEl.textContent = userData.accountLevel || "Fire";
+            if (accountLevelProfileEl) accountLevelProfileEl.textContent = userData.accountLevel || "Fire";
+            
+            // Format member since date
+            const memberSinceDate = userData.createdAt;
+            if (memberSinceEl) {
+                if (memberSinceDate && memberSinceDate.toDate) {
+                    memberSinceEl.textContent = memberSinceDate.toDate().toLocaleDateString();
+                } else {
+                    memberSinceEl.textContent = "Today";
+                }
+            }
+        }
+
+        function updateAdsLeftCount() {
+            if (!userData) return;
+            
+            const today = new Date().toISOString().split('T')[0];
+            if (userData.lastAdWatchDate !== today) {
+                userData.dailyAdCount = 0;
+            }
+            const adsLeft = Math.max(0, (appConfig.dailyAdLimit || 10) - userData.dailyAdCount);
+            if (adsLeftCountEl) adsLeftCountEl.textContent = adsLeft;
+        }
+
+        function updateProgressBar() {
+            if (!userData || !progressFill) return;
+            
+            const today = new Date().toISOString().split('T')[0];
+            if (userData.lastAdWatchDate !== today) {
+                userData.dailyAdCount = 0;
+            }
+            const dailyLimit = appConfig.dailyAdLimit || 10;
+            const progressPercentage = (userData.dailyAdCount / dailyLimit) * 100;
+            progressFill.style.width = `${Math.min(progressPercentage, 100)}%`;
+        }
+
+        function updateDynamicPaymentFields() {
+            if (!paymentDetailsContainer || !withdrawMethodSelect) return;
+            
+            const selectedMethod = withdrawMethodSelect.value.toLowerCase();
+            let placeholder = "Enter Details";
+            let icon = "fas fa-credit-card";
+            
+            if (selectedMethod.includes('bkash')) {
+                placeholder = "Enter your bKash Number (01XXXXXXXXX)";
+                icon = "fas fa-phone";
+            } else if (selectedMethod.includes('nagad')) {
+                placeholder = "Enter your Nagad Number (01XXXXXXXXX)";
+                icon = "fas fa-mobile-alt";
+            }
+            
+            paymentDetailsContainer.innerHTML = `
+                <label class="block text-gray-400 text-sm font-medium mb-2">Payment Details</label>
+                <div class="relative">
+                    <i class="${icon} absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input id="payment-detail-input" type="text" placeholder="${placeholder}" class="input-fire pl-12">
+                </div>
+            `;
+        }
+
+        function showMainPage(pageId) {
+            document.querySelectorAll('.main-page').forEach(p => p.classList.remove('active'));
+            const pageElement = document.getElementById(pageId);
+            if (pageElement) {
+                pageElement.classList.add('active');
+            }
+        }
+
+        function navigateTo(pageId) {
+            document.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
+            const pageElement = document.getElementById(pageId);
+            if (pageElement) {
+                pageElement.classList.add('active');
+            }
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            if (pageId === 'wallet-page') {
+                loadWithdrawalHistory();
+            } else if (pageId === 'profile-page') {
+                updateStatsUI();
+                updateTelegramConnectionStatus();
+            } else if (pageId === 'notifications-page') {
+                loadNotifications();
+            }
+        }
+        window.navigateTo = navigateTo;
+
+        // Telegram Connection Functions
+        window.showTelegramConnectModal = function() {
+            if (telegramConnectModal) {
+                telegramConnectModal.classList.remove('hidden');
+            }
+        }
+        
+        window.closeTelegramModal = function() {
+            if (telegramConnectModal) {
+                telegramConnectModal.classList.add('hidden');
+            }
+        }
+        
+        window.connectTelegram = async function() {
+            const chatId = telegramChatIdInput ? telegramChatIdInput.value.trim() : '';
+            if (!chatId) {
+                showAlert("Please enter your Telegram Chat ID");
+                return;
+            }
+            
+            if (!/^\d+$/.test(chatId)) {
+                showAlert("Invalid Chat ID. Please enter only numbers.");
+                return;
+            }
+            
+            await connectTelegramWithId(chatId);
+        }
+        
+        async function connectTelegramWithId(chatId) {
+            try {
+                if (loader) loader.style.display = 'flex';
+                
+                // Save to Firebase
+                const userRef = doc(db, "users", currentUser.uid);
+                await updateDoc(userRef, { 
+                    telegramChatId: chatId,
+                    telegramNotifications: true
+                });
+                
+                userData.telegramChatId = chatId;
+                userData.telegramNotifications = true;
+                
+                // Link Telegram with Firebase
+                const result = await telegramBot.linkTelegramWithFirebase(chatId, currentUser.uid, userData.name, userData.email);
+                
+                if (result.success) {
+                    // Update UI
+                    updateTelegramConnectionStatus();
+                    closeTelegramModal();
+                    
+                    showAlert("✅ Telegram connected successfully! You will now receive broadcasts.");
+                    
+                    // Clear input
+                    if (telegramChatIdInput) telegramChatIdInput.value = '';
+                } else {
+                    showAlert("Error connecting Telegram: " + (result.error || "Unknown error"));
+                }
+                
+            } catch (error) {
+                console.error("Error connecting Telegram:", error);
+                showAlert("Error connecting Telegram: " + error.message);
+            } finally {
+                if (loader) loader.style.display = 'none';
+            }
+        }
+        
+        window.disconnectTelegram = async function() {
+            if (confirm("Are you sure you want to disconnect Telegram? You will no longer receive broadcasts.")) {
+                try {
+                    if (loader) loader.style.display = 'flex';
+                    
+                    const userRef = doc(db, "users", currentUser.uid);
+                    await updateDoc(userRef, { 
+                        telegramChatId: null,
+                        telegramNotifications: false
+                    });
+                    
+                    userData.telegramChatId = null;
+                    userData.telegramNotifications = false;
+                    
+                    // Update UI
+                    updateTelegramConnectionStatus();
+                    
+                    showAlert("Telegram disconnected successfully.");
+                    
+                } catch (error) {
+                    console.error("Error disconnecting Telegram:", error);
+                    showAlert("Error disconnecting Telegram: " + error.message);
+                } finally {
+                    if (loader) loader.style.display = 'none';
+                }
+            }
+        }
+
+        // Profile Option Functions
+        window.openSettings = function() {
+            if (!userData) return;
+            
+            // Set current values
+            const pushNotifications = document.getElementById('push-notifications');
+            const emailNotifications = document.getElementById('email-notifications');
+            const telegramNotifications = document.getElementById('telegram-notifications');
+            
+            if (pushNotifications) pushNotifications.checked = userData.notificationsEnabled || true;
+            if (emailNotifications) emailNotifications.checked = userData.emailNotifications || true;
+            if (telegramNotifications) telegramNotifications.checked = userData.telegramNotifications || true;
+            
+            const settingsModal = document.getElementById('settings-modal');
+            if (settingsModal) settingsModal.classList.remove('hidden');
+        }
+        
+        window.closeSettings = function() {
+            const settingsModal = document.getElementById('settings-modal');
+            if (settingsModal) settingsModal.classList.add('hidden');
+        }
+        
+        window.openHelp = function() {
+            const helpModal = document.getElementById('help-modal');
+            if (helpModal) helpModal.classList.remove('hidden');
+        }
+        
+        window.closeHelp = function() {
+            const helpModal = document.getElementById('help-modal');
+            if (helpModal) helpModal.classList.add('hidden');
+        }
+        
+        window.openPrivacy = function() {
+            const privacyModal = document.getElementById('privacy-modal');
+            if (privacyModal) privacyModal.classList.remove('hidden');
+        }
+        
+        window.closePrivacy = function() {
+            const privacyModal = document.getElementById('privacy-modal');
+            if (privacyModal) privacyModal.classList.add('hidden');
+        }
+        
+        window.openTelegram = function() {
+            window.open('https://t.me/EASY_FIRE_BOT', '_blank');
+        }
+
+        function setupEventListeners() {
+            // Auth view toggles
+            const showSignupBtn = document.getElementById('show-signup');
+            const showLoginBtn = document.getElementById('show-login');
+            const forgotPasswordLink = document.getElementById('forgot-password-link');
+            const backToLoginBtn = document.getElementById('back-to-login');
+            
+            if (showSignupBtn) {
+                showSignupBtn.addEventListener('click', (e) => { 
+                    e.preventDefault(); 
+                    document.getElementById('login-view').classList.add('hidden'); 
+                    document.getElementById('signup-view').classList.remove('hidden'); 
+                    document.getElementById('forgot-password-view').classList.add('hidden');
+                    document.getElementById('reset-password-view').classList.add('hidden');
+                });
+            }
+            
+            if (showLoginBtn) {
+                showLoginBtn.addEventListener('click', (e) => { 
+                    e.preventDefault(); 
+                    document.getElementById('signup-view').classList.add('hidden'); 
+                    document.getElementById('login-view').classList.remove('hidden'); 
+                    document.getElementById('forgot-password-view').classList.add('hidden');
+                    document.getElementById('reset-password-view').classList.add('hidden');
+                });
+            }
+            
+            // Forgot password
+            if (forgotPasswordLink) {
+                forgotPasswordLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('login-view').classList.add('hidden');
+                    document.getElementById('forgot-password-view').classList.remove('hidden');
+                });
+            }
+            
+            if (backToLoginBtn) {
+                backToLoginBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.getElementById('forgot-password-view').classList.add('hidden');
+                    document.getElementById('login-view').classList.remove('hidden');
+                });
+            }
+            
+            // Auth buttons
+            const signupBtn = document.getElementById('signup-btn');
+            const loginBtn = document.getElementById('login-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const resetPasswordBtn = document.getElementById('reset-password-btn');
+            const confirmResetBtn = document.getElementById('confirm-reset-btn');
+            
+            if (signupBtn) signupBtn.addEventListener('click', handleSignup);
+            if (loginBtn) loginBtn.addEventListener('click', handleLogin);
+            if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
+            if (resetPasswordBtn) resetPasswordBtn.addEventListener('click', handleResetPassword);
+            if (confirmResetBtn) confirmResetBtn.addEventListener('click', handleConfirmReset);
+            
+            // Navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.dataset.page;
+                    navigateTo(pageId);
+                });
+            });
+            
+            // Notifications
+            const notificationBell = document.getElementById('notification-bell');
+            const markAllReadBtn = document.getElementById('mark-all-read-btn');
+            
+            if (notificationBell) {
+                notificationBell.addEventListener('click', () => { 
+                    navigateTo('notifications-page'); 
+                });
+            }
+            
+            if (markAllReadBtn) {
+                markAllReadBtn.addEventListener('click', markAllAsRead);
+            }
+            
+            // Referral
+            const copyCodeBtn = document.getElementById('copy-code-btn');
+            const copyLinkBtn = document.getElementById('copy-link-btn');
+            const shareBtn = document.getElementById('share-btn');
+            const applyReferralBtn = document.getElementById('apply-referral-btn');
+            
+            if (copyCodeBtn) copyCodeBtn.addEventListener('click', copyReferralCode);
+            if (copyLinkBtn) copyLinkBtn.addEventListener('click', copyReferralLink);
+            if (shareBtn) shareBtn.addEventListener('click', shareReferralCode);
+            if (applyReferralBtn) applyReferralBtn.addEventListener('click', handleApplyReferralCode);
+            
+            // Wallet
+            const withdrawBtn = document.getElementById('withdraw-btn');
+            const homeWithdrawBtn = document.getElementById('home-withdraw-btn');
+            
+            if (withdrawBtn) withdrawBtn.addEventListener('click', handleWithdrawal);
+            if (homeWithdrawBtn) homeWithdrawBtn.addEventListener('click', () => navigateTo('wallet-page'));
+            if (withdrawMethodSelect) {
+                withdrawMethodSelect.addEventListener('change', updateDynamicPaymentFields);
+            }
+            
+            // Settings
+            const saveSettingsBtn = document.getElementById('save-settings-btn');
+            if (saveSettingsBtn) saveSettingsBtn.addEventListener('click', saveSettings);
+            
+            // Alert
+            const alertOkBtn = document.getElementById('alert-ok-btn');
+            if (alertOkBtn) {
+                alertOkBtn.addEventListener('click', () => {
+                    const customAlert = document.getElementById('custom-alert');
+                    if (customAlert) customAlert.classList.add('hidden');
+                });
+            }
+        }
+
+        async function markAllAsRead() {
+            try {
+                const userRef = doc(db, "users", currentUser.uid);
+                await updateDoc(userRef, {
+                    lastNotificationCheck: serverTimestamp()
+                });
+                userData.lastNotificationCheck = serverTimestamp();
+                if (notificationDot) notificationDot.style.display = 'none';
+                showAlert("All notifications marked as read!");
+                
+                // Reload notifications
+                loadNotifications();
+            } catch (error) {
+                console.error("Error marking notifications as read:", error);
+            }
+        }
+
+        async function saveSettings() {
+            const pushNotifications = document.getElementById('push-notifications');
+            const emailNotifications = document.getElementById('email-notifications');
+            const telegramNotifications = document.getElementById('telegram-notifications');
+            
+            const pushChecked = pushNotifications ? pushNotifications.checked : true;
+            const emailChecked = emailNotifications ? emailNotifications.checked : true;
+            const telegramChecked = telegramNotifications ? telegramNotifications.checked : true;
+            
+            try {
+                const userRef = doc(db, "users", currentUser.uid);
+                await updateDoc(userRef, {
+                    notificationsEnabled: pushChecked,
+                    emailNotifications: emailChecked,
+                    telegramNotifications: telegramChecked
+                });
+                userData.notificationsEnabled = pushChecked;
+                userData.emailNotifications = emailChecked;
+                userData.telegramNotifications = telegramChecked;
+                showAlert("Settings saved successfully!");
+                closeSettings();
+            } catch (error) {
+                console.error("Error saving settings:", error);
+                showAlert("Error saving settings.");
+            }
+        }
+
+        // Forgot Password Functions
+        function showForgotPasswordView() {
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('signup-view').classList.add('hidden');
+            document.getElementById('forgot-password-view').classList.remove('hidden');
+        }
+
+        function showResetPasswordView() {
+            document.getElementById('auth-section').classList.add('active');
+            document.getElementById('login-view').classList.add('hidden');
+            document.getElementById('signup-view').classList.add('hidden');
+            document.getElementById('forgot-password-view').classList.add('hidden');
+            document.getElementById('reset-password-view').classList.remove('hidden');
+        }
+
+        async function handleResetPassword() {
+            const resetEmail = document.getElementById('reset-email');
+            const email = resetEmail ? resetEmail.value : '';
+            
+            if (!email) return showAlert("Please enter your email address.");
+            
+            if (loader) loader.style.display = 'flex';
+            try {
+                await sendPasswordResetEmail(auth, email);
+                showAlert("Password reset email sent! Check your inbox.");
+                document.getElementById('forgot-password-view').classList.add('hidden');
+                document.getElementById('login-view').classList.remove('hidden');
+            } catch (error) {
+                showAlert(error.message);
+            } finally {
+                if (loader) loader.style.display = 'none';
+            }
+        }
+
+        async function handleConfirmReset() {
+            const newPassword = document.getElementById('new-password');
+            const confirmPassword = document.getElementById('confirm-password');
+            
+            const newPass = newPassword ? newPassword.value : '';
+            const confirmPass = confirmPassword ? confirmPassword.value : '';
+            
+            if (!newPass || !confirmPass) {
+                return showAlert("Please fill in all fields.");
+            }
+            
+            if (newPass !== confirmPass) {
+                return showAlert("Passwords don't match.");
+            }
+            
+            if (newPass.length < 6) {
+                return showAlert("Password must be at least 6 characters.");
+            }
+            
+            if (loader) loader.style.display = 'flex';
+            try {
+                await confirmPasswordReset(auth, resetCode, newPass);
+                showAlert("Password reset successful! You can now login with your new password.");
+                document.getElementById('reset-password-view').classList.add('hidden');
+                document.getElementById('login-view').classList.remove('hidden');
+                
+                // Clear URL parameters
+                window.history.replaceState({}, document.title, window.location.pathname);
+                resetCode = null;
+            } catch (error) {
+                showAlert(error.message);
+            } finally {
+                if (loader) loader.style.display = 'none';
+            }
+        }
+
+        async function handleSignup() {
+            const signupName = document.getElementById('signup-name');
+            const signupEmail = document.getElementById('signup-email');
+            const signupPassword = document.getElementById('signup-password');
+            
+            const name = signupName ? signupName.value : '';
+            const email = signupEmail ? signupEmail.value : '';
+            const password = signupPassword ? signupPassword.value : '';
+            
+            if (!name || !email || !password) return showAlert("Please fill all fields.");
+            if (password.length < 6) return showAlert("Password must be at least 6 characters.");
+            
+            if (loader) loader.style.display = 'flex';
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const userRef = doc(db, "users", userCredential.user.uid);
+                await updateDoc(userRef, { name: name });
+                
+                // Check for referral code in URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const refCode = urlParams.get('ref');
+                if (refCode) {
+                    await applyReferralBonus(refCode, false);
+                }
+                
+                // Check for Telegram chat ID in URL
+                const telegramChatId = urlParams.get('telegram_chat_id');
+                if (telegramChatId) {
+                    await connectTelegramWithId(telegramChatId);
+                }
+            } catch (error) {
+                showAlert(error.message);
+            } finally {
+                if (loader) loader.style.display = 'none';
+            }
+        }
+
+        async function handleLogin() {
+            const loginEmail = document.getElementById('login-email');
+            const loginPassword = document.getElementById('login-password');
+            
+            const email = loginEmail ? loginEmail.value : '';
+            const password = loginPassword ? loginPassword.value : '';
+            
+            if (!email || !password) return showAlert("Please enter email and password.");
+            
+            if (loader) loader.style.display = 'flex';
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                showAlert(error.message);
+            } finally {
+                if (loader) loader.style.display = 'none';
+            }
+        }
+
+        async function handleLogout() { 
+            await signOut(auth); 
+        }
+        
+        async function loadNotifications() {
+            const listEl = document.getElementById('notifications-list');
+            if (!listEl) return;
+            
+            listEl.innerHTML = '<div class="text-center py-12"><div class="fire-loader mx-auto mb-4"></div><p class="text-gray-400">Loading notifications...</p></div>';
+            
+            try {
+                // Load regular notifications from Firestore
+                const notificationsQuery = query(collection(db, "notifications"), orderBy("createdAt", "desc"), limit(50));
+                const notificationsSnapshot = await getDocs(notificationsQuery);
+                
+                // Load Telegram broadcasts from Firestore
+                const broadcastsQuery = query(collection(db, "telegram_broadcasts"), orderBy("createdAt", "desc"), limit(50));
+                const broadcastsSnapshot = await getDocs(broadcastsQuery);
+                
+                if (notificationsSnapshot.empty && broadcastsSnapshot.empty) {
+                    listEl.innerHTML = '<div class="text-center py-12"><div class="w-16 h-16 rounded-full bg-card flex items-center justify-center mx-auto mb-4"><i class="fas fa-bell-slash text-2xl text-gray-400"></i></div><p class="text-gray-400">No notifications available.</p></div>';
+                    return;
+                }
+                
+                listEl.innerHTML = '';
+                const allNotifications = [];
+                
+                // Add regular notifications
+                notificationsSnapshot.forEach(doc => {
+                    const msg = doc.data();
+                    allNotifications.push({
+                        ...msg,
+                        id: doc.id,
+                        type: 'app',
+                        date: msg.createdAt ? msg.createdAt.toDate() : new Date(),
+                        source: 'App Notification'
+                    });
+                });
+                
+                // Add Telegram broadcasts
+                broadcastsSnapshot.forEach(doc => {
+                    const msg = doc.data();
+                    allNotifications.push({
+                        ...msg,
+                        id: doc.id,
+                        type: 'telegram',
+                        date: msg.createdAt ? msg.createdAt.toDate() : new Date(),
+                        source: 'Telegram Broadcast'
+                    });
+                });
+                
+                // Sort by date (newest first)
+                allNotifications.sort((a, b) => b.date - a.date);
+                
+                // Display notifications
+                allNotifications.forEach(notification => {
+                    const date = notification.date.toLocaleDateString();
+                    const time = notification.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    const isTelegram = notification.type === 'telegram';
+                    
+                    listEl.innerHTML += `
+                        <div class="premium-card p-4">
+                            <div class="flex items-start">
+                                <div class="w-10 h-10 rounded-lg ${isTelegram ? 'bg-telegram bg-opacity-20' : 'fire-gradient'} flex items-center justify-center mr-4 flex-shrink-0">
+                                    <i class="fas ${isTelegram ? 'fa-paper-plane' : 'fa-bell'} ${isTelegram ? 'text-blue-400' : 'text-white'}"></i>
+                                </div>
+                                <div class="flex-grow">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <div class="flex items-center">
+                                            <h3 class="font-bold">${notification.title || 'Broadcast Message'}</h3>
+                                            ${isTelegram ? '<span class="telegram-badge">Telegram</span>' : ''}
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-xs text-gray-400">${date}</p>
+                                            <p class="text-xs text-gray-400">${time}</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-400 mb-2">${notification.message || notification.content || 'No message content'}</p>
+                                    <p class="text-xs text-gray-500">Source: ${notification.source}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                // Update last notification check time
+                await updateDoc(doc(db, "users", currentUser.uid), { 
+                    lastNotificationCheck: serverTimestamp() 
+                });
+                userData.lastNotificationCheck = serverTimestamp();
+                if (notificationDot) notificationDot.style.display = 'none';
+                
+            } catch (error) {
+                console.error("Error loading notifications:", error);
+                listEl.innerHTML = '<div class="text-center py-8"><div class="w-16 h-16 rounded-full bg-fire bg-opacity-20 flex items-center justify-center mx-auto mb-4"><i class="fas fa-exclamation-triangle text-2xl text-fire"></i></div><p class="text-fire">Error loading notifications.</p></div>';
+            }
+        }
+
+        async function loadWithdrawalHistory() {
+            const historyList = document.getElementById('withdrawal-history-list');
+            if (!historyList) return;
+            
+            historyList.innerHTML = '<div class="text-center py-8"><div class="fire-loader mx-auto mb-2"></div><p class="text-gray-400">Loading history...</p></div>';
+            
+            try {
+                // Try to fetch withdrawal history from Firestore
+                const q = query(collection(db, "withdrawals"), where("userId", "==", currentUser.uid));
+                const querySnapshot = await getDocs(q);
+                
+                if (querySnapshot.empty) {
+                    historyList.innerHTML = '<div class="text-center py-12"><div class="w-16 h-16 rounded-full bg-card flex items-center justify-center mx-auto mb-4"><i class="fas fa-history text-2xl text-gray-400"></i></div><p class="text-gray-400">You haven\'t made any withdrawals yet.</p></div>';
+                    withdrawalHistory = [];
+                    return;
+                }
+                
+                historyList.innerHTML = '';
+                withdrawalHistory = [];
+                
+                // Convert to array and sort by date manually
+                const withdrawalsArray = [];
+                querySnapshot.forEach(doc => {
+                    const request = doc.data();
+                    request.id = doc.id;
+                    withdrawalsArray.push(request);
+                });
+                
+                // Sort by requestedAt manually
+                withdrawalsArray.sort((a, b) => {
+                    const dateA = a.requestedAt ? a.requestedAt.toDate() : new Date(0);
+                    const dateB = b.requestedAt ? b.requestedAt.toDate() : new Date(0);
+                    return dateB - dateA; // Descending
+                });
+                
+                withdrawalsArray.forEach(request => {
+                    withdrawalHistory.push(request);
+                    
+                    const status = request.status || 'pending';
+                    let statusColor = 'text-yellow-400';
+                    let statusClass = 'status-pending';
+                    let statusIcon = 'fa-clock';
+                    let statusText = 'Pending';
+                    
+                    if (status === 'approved') {
+                        statusColor = 'text-green-400';
+                        statusClass = 'status-approved';
+                        statusIcon = 'fa-check-circle';
+                        statusText = 'Successful';
+                    }
+                    else if (status === 'rejected') {
+                        statusColor = 'text-red-400';
+                        statusClass = 'status-rejected';
+                        statusIcon = 'fa-times-circle';
+                        statusText = 'Rejected';
+                    }
+                    
+                    const date = request.requestedAt ? request.requestedAt.toDate().toLocaleDateString() : 'N/A';
+                    const time = request.requestedAt ? request.requestedAt.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '';
+                    
+                    historyList.innerHTML += `
+                        <div class="premium-card p-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-lg bg-card flex items-center justify-center mr-3">
+                                        <i class="fas ${statusIcon} ${statusColor}"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold">${request.amount} Coins</p>
+                                        <p class="text-sm text-gray-400">${request.method}</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="withdrawal-status ${statusClass}">${statusText}</span>
+                                    <p class="text-xs text-gray-400 mt-1">${date} ${time}</p>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-400 mb-1"><strong>Details:</strong> ${request.paymentDetail || 'No details'}</p>
+                                ${request.adminNote ? `<p class="text-xs text-gray-500 mt-1"><strong>Admin Note:</strong> ${request.adminNote}</p>` : ''}
+                                ${request.processedAt ? `<p class="text-xs text-gray-500 mt-1"><strong>Processed:</strong> ${request.processedAt.toDate().toLocaleDateString()}</p>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+                
+            } catch (error) {
+                console.error("Error fetching withdrawal history: ", error);
+                
+                // Show only real withdrawal history when Firebase fails
+                historyList.innerHTML = '<div class="text-center py-12"><div class="w-16 h-16 rounded-full bg-card flex items-center justify-center mx-auto mb-4"><i class="fas fa-history text-2xl text-gray-400"></i></div><p class="text-gray-400">You haven\'t made any withdrawals yet.</p></div>';
+                withdrawalHistory = [];
+            }
+        }
+        
+        async function handleApplyReferralCode() {
+            if (userData.referredBy) return showAlert("You have already used a referral code.");
+            const codeInput = document.getElementById('enter-referral-code');
+            const code = codeInput ? codeInput.value.trim().toUpperCase() : '';
+            if (!code) return showAlert("Please enter a code.");
+            if (code === userData.referralCode) return showAlert("You cannot use your own code.");
+            if (loader) loader.style.display = 'flex';
+            await applyReferralBonus(code, true);
+            if (codeInput) codeInput.value = '';
+            if (loader) loader.style.display = 'none';
+        }
+
+        async function applyReferralBonus(referrerCode, isManualApply = false) {
+            const usersRef = collection(db, "users");
+            const q = query(usersRef, where("referralCode", "==", referrerCode));
+            try {
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    const referrerDoc = querySnapshot.docs[0];
+                    const referrerRef = doc(db, "users", referrerDoc.id);
+                    const referrerData = referrerDoc.data();
+                    const referralBonus = appConfig.referralBonus || 20;
+                    
+                    // Update referrer's data
+                    await updateDoc(referrerRef, { 
+                        balance: (referrerData.balance || 0) + referralBonus,
+                        totalReferrals: (referrerData.totalReferrals || 0) + 1,
+                        totalEarned: (referrerData.totalEarned || 0) + referralBonus
+                    });
+                    
+                    // Update current user's data
+                    const newUserRef = doc(db, "users", currentUser.uid);
+                    await updateDoc(newUserRef, { 
+                        balance: (userData.balance || 0) + referralBonus, 
+                        referredBy: referrerCode,
+                        totalEarned: (userData.totalEarned || 0) + referralBonus
+                    });
+                    
+                    userData.balance += referralBonus; 
+                    userData.referredBy = referrerCode;
+                    userData.totalEarned += referralBonus;
+                    
+                    updateUI();
+                    
+                    if(isManualApply) showAlert(`Code applied successfully! You have received ${referralBonus} coins.`);
+                } else {
+                    if(isManualApply) showAlert("Invalid referral code.");
+                }
+            } catch(error) {
+                console.error("Error applying referral bonus: ", error);
+                if(isManualApply) showAlert("Error applying code.");
+            }
+        }
+
+        async function updateBalance(amount, isTask = false) {
+            if (!currentUser) return;
+            const newBalance = (userData.balance || 0) + amount;
+            const userRef = doc(db, "users", currentUser.uid);
+            
+            // Update total earned if positive amount
+            if (amount > 0) {
+                userData.totalEarned = (userData.totalEarned || 0) + amount;
+                
+                if (isTask) {
+                    userData.totalTasksCompleted = (userData.totalTasksCompleted || 0) + 1;
+                    
+                    await updateDoc(userRef, { 
+                        balance: newBalance,
+                        totalEarned: userData.totalEarned,
+                        totalTasksCompleted: userData.totalTasksCompleted
+                    });
+                } else {
+                    await updateDoc(userRef, { 
+                        balance: newBalance,
+                        totalEarned: userData.totalEarned
+                    });
+                }
+            } else {
+                await updateDoc(userRef, { balance: newBalance });
+            }
+            
+            userData.balance = newBalance;
+            
+            // Coin animation
+            if (coinBalanceEl) {
+                coinBalanceEl.classList.add('animate__animated', 'animate__bounce');
+                setTimeout(() => {
+                    coinBalanceEl.classList.remove('animate__animated', 'animate__bounce');
+                }, 1000);
+            }
+            
+            updateUI();
+        }
+
+        async function handleWithdrawal() {
+            const withdrawAmount = document.getElementById('withdraw-amount');
+            const paymentDetailInput = document.getElementById('payment-detail-input');
+            
+            const amount = withdrawAmount ? parseInt(withdrawAmount.value) : 0;
+            const method = withdrawMethodSelect ? withdrawMethodSelect.value : '';
+            const paymentDetail = paymentDetailInput ? paymentDetailInput.value.trim() : '';
+            const minWithdrawal = appConfig.minWithdrawal || 5000;
+
+            if (!amount || amount <= 0) return showAlert("Please enter a valid amount.");
+            if (amount < minWithdrawal) return showAlert(`Minimum withdrawal is ${minWithdrawal} coins.`);
+            if (amount > userData.balance) return showAlert("Insufficient balance.");
+            if (!paymentDetail) return showAlert("Please enter payment details.");
+
+            if (loader) loader.style.display = 'flex';
+            try {
+                await updateBalance(-amount);
+                
+                const withdrawalData = {
+                    userId: currentUser.uid, 
+                    userName: userData.name, 
+                    userEmail: userData.email,
+                    amount: amount, 
+                    method: method, 
+                    paymentDetail: paymentDetail, 
+                    status: "pending", 
+                    requestedAt: serverTimestamp()
+                };
+                
+                await addDoc(collection(db, "withdrawals"), withdrawalData);
+                
+                // Update pending withdrawal total
+                pendingWithdrawalTotal += amount;
+                
+                // Send Telegram notification if connected
+                if (userData.telegramChatId) {
+                    const notificationMessage = `📢 *Withdrawal Request Submitted*\n\nAmount: ${amount} Coins\nMethod: ${method}\nStatus: Pending\n\nWe will process your request within 24 hours.`;
+                    await telegramBot.sendTelegramMessage(userData.telegramChatId, notificationMessage);
+                }
+                
+                showAlert("Withdrawal request submitted successfully!");
+                if (withdrawAmount) withdrawAmount.value = '';
+                if (paymentDetailInput) paymentDetailInput.value = '';
+                updateStatsUI();
+            } catch (error) {
+                showAlert("Error submitting request: " + error.message);
+                await updateBalance(amount); // Rollback balance
+            } finally {
+                if (loader) loader.style.display = 'none';
+            }
+        }
+
+        function copyReferralCode() {
+            const textToCopy = referralCodeEl ? referralCodeEl.textContent : '';
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showAlert("Referral code copied to clipboard!");
+            }).catch(err => {
+                showAlert("Failed to copy code.");
+            });
+        }
+        
+        function copyReferralLink() {
+            const textToCopy = referralLinkEl ? referralLinkEl.value : '';
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showAlert("Referral link copied to clipboard!");
+            }).catch(err => {
+                showAlert("Failed to copy link.");
+            });
+        }
+        
+        function shareReferralCode() {
+            const text = `Join EASY FIRE and earn money fast! Use my referral code: ${userData.referralCode} or click: ${referralLinkEl ? referralLinkEl.value : ''}`;
+            if (navigator.share) {
+                navigator.share({ 
+                    title: 'JOIN EASY FIRE!', 
+                    text: text, 
+                    url: referralLinkEl ? referralLinkEl.value : window.location.origin
+                }).catch((error) => console.error("Share failed:", error));
+            } else {
+                copyReferralLink();
+                showAlert("Referral link copied to clipboard!");
+            }
+        }
+
+        // Task system with 10-second delays
+        window.startTask = async function(taskType) {
+            if (taskStatus[taskType] === 'running') {
+                return showAlert("This task is already in progress.");
+            }
+            
+            const today = new Date().toISOString().split('T')[0];
+            const userRef = doc(db, "users", currentUser.uid);
+
+            if (userData.lastAdWatchDate !== today) {
+                await updateDoc(userRef, { dailyAdCount: 0, lastAdWatchDate: today });
+                userData.dailyAdCount = 0;
+                userData.lastAdWatchDate = today;
+            }
+
+            if (userData.dailyAdCount >= (appConfig.dailyAdLimit || 10)) {
+                return showAlert("You have reached your daily ad watch limit.");
+            }
+            
+            const buttonId = `btn-${taskType}`;
+            const timerId = `timer-${taskType}`;
+            
+            const button = document.getElementById(buttonId);
+            const timer = document.getElementById(timerId);
+            
+            if (!button || !timer) return;
+            
+            button.disabled = true;
+            button.innerHTML = 'Please wait...';
+            timer.classList.remove('hidden');
+            taskStatus[taskType] = 'running';
+            
+            let countdown = 10;
+            const timerElement = timer.querySelector('.font-mono');
+            
+            const firstCountdown = setInterval(() => {
+                countdown--;
+                if (timerElement) timerElement.textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(firstCountdown);
+                    if (timerElement) timerElement.textContent = "Starting...";
+                    showAd(taskType);
+                }
+            }, 1000);
+        }
+
+        async function showAd(taskType) {
+            const timerId = `timer-${taskType}`;
+            const buttonId = `btn-${taskType}`;
+            
+            const timer = document.getElementById(timerId);
+            const button = document.getElementById(buttonId);
+            
+            if (!timer || !button) return;
+            
+            if (typeof window.show_10577253 !== 'function') {
+                resetTask(taskType);
+                return showAlert("Ad service is currently unavailable. Please try again later.");
+            }
+            
+            try {
+                let adPromise;
+                switch(taskType) {
+                    case 'interstitial': 
+                        adPromise = window.show_10577253(); 
+                        break;
+                    case 'popup': 
+                        adPromise = window.show_10577253('pop'); 
+                        break;
+                    case 'inApp': 
+                        adPromise = window.show_10577253({ 
+                            type: 'inApp', 
+                            inAppSettings: { 
+                                frequency: 2, 
+                                capping: 0.1, 
+                                interval: 30, 
+                                timeout: 5, 
+                                everyPage: false 
+                            } 
+                        }); 
+                        break;
+                    case 'miniApp': 
+                        adPromise = window.show_10577253(); 
+                        break;
+                    default: 
+                        resetTask(taskType);
+                        return;
+                }
+                
+                await adPromise;
+                
+                const timerElement = timer.querySelector('.font-mono');
+                const timerText = timer.querySelector('span:nth-child(3)');
+                
+                if (timerElement) timerElement.textContent = "10";
+                if (timerText) timerText.textContent = "seconds until reward";
+                
+                let countdown = 10;
+                
+                const secondCountdown = setInterval(() => {
+                    countdown--;
+                    if (timerElement) timerElement.textContent = countdown;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(secondCountdown);
+                        completeTask(taskType);
+                    }
+                }, 1000);
+                
+            } catch(e) {
+                console.error("Ad error:", e);
+                resetTask(taskType);
+                showAlert('Could not show ad. Please try again later.');
+            }
+        }
+
+        async function completeTask(taskType) {
+            const timerId = `timer-${taskType}`;
+            const buttonId = `btn-${taskType}`;
+            
+            const userRef = doc(db, "users", currentUser.uid);
+            const newCount = (userData.dailyAdCount || 0) + 1;
+            await updateDoc(userRef, { dailyAdCount: newCount });
+            userData.dailyAdCount = newCount;
+            
+            await updateBalance(10, true);
+            
+            const successAnimation = document.getElementById('success-animation');
+            if (successAnimation) {
+                successAnimation.classList.remove('hidden');
+                setTimeout(() => {
+                    successAnimation.classList.add('hidden');
+                }, 2000);
+            }
+            
+            setTimeout(() => {
+                resetTask(taskType);
+                showAlert("Congratulations! You have earned 10 coins!");
+            }, 1000);
+            
+            updateAdsLeftCount();
+            updateProgressBar();
+            updateStatsUI();
+        }
+
+        function resetTask(taskType) {
+            const timerId = `timer-${taskType}`;
+            const buttonId = `btn-${taskType}`;
+            
+            const timer = document.getElementById(timerId);
+            const button = document.getElementById(buttonId);
+            
+            if (timer) timer.classList.add('hidden');
+            if (button) {
+                button.disabled = false;
+                if (taskType === 'miniApp') {
+                    button.innerHTML = 'Play';
+                } else if (taskType === 'inApp') {
+                    button.innerHTML = 'Start';
+                } else {
+                    button.innerHTML = 'Claim';
+                }
+            }
+            taskStatus[taskType] = null;
+        }
+
+        function showAlert(message) {
+            const alertMessage = document.getElementById('alert-message');
+            const customAlert = document.getElementById('custom-alert');
+            
+            if (alertMessage) alertMessage.textContent = message;
+            if (customAlert) customAlert.classList.remove('hidden');
+        }
+        window.showAlert = showAlert;
+    </script>
+</body>
+</html>
